@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Premier Geste — C Relief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/base.css">
+<style>
+:root {
+  --ink: #111111; --grey: #8C8C8C; --line: rgba(0,0,0,.08); --acc: #D24A3A;
+  --b-bg: #E9E9E9; --b-ink: var(--ink); --b-font: 'Inter Tight', system-ui, sans-serif;
+  --s-bg: #E7E7E7; --s-ink: var(--ink);
+  --il-o: transparent; --il-lw: 0; --il-ink: #3A3A3A; --il-v: #E4E4E4; --il-r: #A8A8A8; --il-skin: #F2F2F2;
+  --il-accent: var(--acc); --il-floor: #D2D2D2; --il-pad: #FAFAFA; --il-obj: #D9D9D9; --il-water: #C3D2DB;
+  --il-badge: #1A1A1A; --il-font: 'Inter Tight', sans-serif;
+}
+h1.board-title { font: 500 76px/.98 'Inter Tight', sans-serif; letter-spacing: -.04em; margin: 0; }
+h1.board-title span { color: #A3A3A3; }
+.relief { filter: url(#pgRelief); }
+
+/* ----- écran ----- */
+.screen { display: flex; flex-direction: column; padding: 58px 24px 24px;
+  background: radial-gradient(120% 70% at 25% 30%, #F7F7F7 0%, #E7E7E7 55%, #DCDCDC 100%); }
+.screen::after { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: var(--line); pointer-events: none; }
+.c-top { display: flex; justify-content: space-between; font: 600 14px/1 'Inter Tight'; letter-spacing: .02em; position: relative; z-index: 2; }
+.c-top span:last-child { color: var(--grey); font-weight: 500; }
+.c-ill { position: relative; flex: 1 1 auto; min-height: 0; display: grid; place-items: center; margin: 4px -12px 0; }
+.c-ill .il { width: 100%; max-height: 300px; }
+.c-ring { position: absolute; width: 230px; height: 230px; border-radius: 50%; border: 1px solid rgba(0,0,0,.12); opacity: 0; transition: transform .12s, opacity .2s; }
+.is-metro .c-ring { opacity: 1; }
+.beat .c-ring { transform: scale(1.08); border-color: var(--acc); }
+.c-num { font: 400 13px/1 'Inter Tight'; color: var(--grey); letter-spacing: .08em; margin-bottom: 12px; display: flex; gap: 6px; align-items: center; }
+.c-num b { color: var(--ink); font-weight: 600; }
+.c-num i { flex: 0 0 18px; height: 2px; background: rgba(0,0,0,.14); }
+.c-num i.on { background: var(--ink); }
+.c-t { margin: 0 0 16px; font: 500 27px/1.12 'Inter Tight'; letter-spacing: -.025em; color: var(--grey); }
+.c-t b { color: var(--ink); font-weight: 500; }
+.c-t s { text-decoration-thickness: 2px; }
+.c-bar { display: flex; align-items: center; gap: 12px; padding-right: 54px; }
+.c-play { all: unset; cursor: pointer; position: relative; width: 64px; height: 64px; border-radius: 50%; background: #F6F6F6; box-shadow: 8px 10px 22px rgba(0,0,0,.14), -6px -6px 16px rgba(255,255,255,.9); display: grid; place-items: center; font-size: 16px; flex: none; }
+.c-play svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+.c-play circle { fill: none; stroke: var(--ink); stroke-width: 2; stroke-dasharray: 190; stroke-dashoffset: 190; }
+.is-speaking .c-play circle { animation: ring 2.4s linear infinite; }
+@keyframes ring { to { stroke-dashoffset: -190; } }
+.c-lbl { font: 500 15px/1.25 'Inter Tight'; }
+.c-lbl small { display: block; color: var(--grey); font-size: 13px; }
+.c-lbl small[data-a] { text-decoration: underline; text-underline-offset: 3px; }
+.is-auto .c-lbl small.auto, .is-metro .c-lbl small.metro { color: var(--ink); font-weight: 600; }
+.c-nav { margin-left: auto; display: flex; gap: 8px; }
+.c-nav button { all: unset; cursor: pointer; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(0,0,0,.16); display: grid; place-items: center; font: 400 18px/1 'Inter Tight'; }
+.c-nav button:disabled { opacity: .3; cursor: default; }
+.c-call { all: unset; cursor: pointer; position: absolute; right: 0; top: 46%; width: 54px; height: 210px; background: #0E0E0E; color: #fff; border-radius: 14px 0 0 14px; display: flex; align-items: center; justify-content: center; z-index: 3; }
+.c-call span { writing-mode: vertical-rl; transform: rotate(180deg); font: 600 16px/1 'Inter Tight'; letter-spacing: .02em; display: flex; gap: 10px; align-items: center; }
+.c-call span::after { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--acc); animation: blink 1.4s ease-in-out infinite; }
+@keyframes blink { 50% { opacity: .25; } }
+
+/* ----- bande d'illustrations ----- */
+.strip .cell { background: radial-gradient(100% 80% at 30% 30%, #F7F7F7, #E1E1E1); border-radius: 6px; padding: 16px 6px; }
+.strip .lbl { font: 500 15px/1.2 'Inter Tight'; margin-top: 4px; }
+.strip .sig { font: 400 12.5px/1.35 'Inter Tight'; color: var(--grey); }
+.strip button:hover .cell { background: #fff; }
+.strip-title { font: 500 30px/1 'Inter Tight'; letter-spacing: -.03em; }
+.strip-title span { color: #A3A3A3; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="pgRelief" x="-15%" y="-15%" width="130%" height="140%" color-interpolation-filters="sRGB">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="3.2" result="blur"/>
+    <feSpecularLighting in="blur" surfaceScale="4" specularConstant=".9" specularExponent="16" lighting-color="#ffffff" result="spec">
+      <fePointLight x="-120" y="-180" z="260"/>
+    </feSpecularLighting>
+    <feComposite in="spec" in2="SourceAlpha" operator="in" result="specIn"/>
+    <feComposite in="SourceGraphic" in2="specIn" operator="arithmetic" k1="0" k2="1" k3=".85" k4="0" result="lit"/>
+    <feGaussianBlur in="SourceAlpha" stdDeviation="7" result="sb"/>
+    <feOffset in="sb" dx="9" dy="13" result="so"/>
+    <feComponentTransfer in="so" result="shadow"><feFuncA type="linear" slope=".22"/></feComponentTransfer>
+    <feMerge><feMergeNode in="shadow"/><feMergeNode in="lit"/></feMerge>
+  </filter>
+</svg>
+<main class="board">
+  <header class="board-head">
+    <div>
+      <p class="board-kicker">Premier Geste · Planche C · V1 · 2026-11-22 · page principale « Guide pas à pas »</p>
+      <h1 class="board-title">Respirez. <span>Le geste est là, en relief, et l'appel à portée de main.</span></h1>
+    </div>
+    <div class="board-meta">
+      <p><b>Intention.</b> Faire baisser la pression. Monochrome doux : le geste sort du fond comme une matière, rien d'autre ne crie. Une seule action noire, l'appel, en onglet sur le bord droit, toujours au même endroit.</p>
+      <p><b>Référence.</b> Flow Computing (<i>minimal-nb</i>) : relief blanc éclairé à gauche, filet vertical central, titre noir puis gris, onglet vertical noir = seule action. Principes seulement.</p>
+      <p><b>Tokens.</b> Inter Tight 500 · gris #E7E7E7 → #F7F7F7 · encre #111 · rouge #D24A3A réservé au geste (flèches, plaie).</p>
+      <div class="swatches"><i style="background:#111"></i><i style="background:#8C8C8C"></i><i style="background:#E7E7E7"></i><i style="background:#F7F7F7"></i><i style="background:#D24A3A"></i></div>
+    </div>
+  </header>
+
+  <section class="phones">
+    <div class="phone-wrap"><div class="phone"><div class="screen" data-guide="rcp:2"></div></div><p class="phone-cap">Arrêt cardiaque · étape 3 — « Rythme » : l'anneau bat à 110/min</p></div>
+    <div class="phone-wrap"><div class="phone"><div class="screen" data-guide="etouf:2"></div></div><p class="phone-cap">Étouffement · étape 3 — l'anneau du bouton tourne pendant la lecture</p></div>
+    <div class="phone-wrap"><div class="phone"><div class="screen" data-guide="brul:3"></div></div><p class="phone-cap">Brûlure · étape 4 — l'appel reste l'onglet noir à droite</p></div>
+  </section>
+
+  <h2 class="strip-title">Jeu d'illustrations <span>— 8 urgences, cliquez pour ouvrir</span></h2>
+  <div class="strip"></div>
+
+  <section class="notes">
+    <div><h3>Force</h3><p>La plus distinctive et la plus calme. Le relief rend les gestes tangibles, presque des objets ; la phrase unique (noir puis gris) se lit d'un trait.</p></div>
+    <div><h3>Risque</h3><p>Onglet d'appel vertical : élégant mais moins évident qu'une bande pleine largeur — à valider en test. Contraste des gris à surveiller en plein soleil.</p></div>
+    <div><h3>Audio</h3><p>Bouton rond en relief, anneau de progression pendant la lecture ; « Lecture auto » et « Rythme » en liens discrets sous le libellé.</p></div>
+  </section>
+</main>
+<script src="shared/data.js"></script>
+<script src="shared/illus.js"></script>
+<script src="shared/guide.js"></script>
+<script>
+const pad = n => String(n).padStart(2, '0');
+function render(g) {
+  const U = g.U, S = g.S, n = g.n;
+  const no = S.no ? ` Jamais : ${S.no.map(w => `<s>${esc(w)}</s>`).join(', ')}.` : '';
+  return `<div class="notch"></div>
+  <header class="c-top"><span data-a="urg" data-v="${g.u}">Premier Geste</span><span>${esc(U.nom)}</span></header>
+  <div class="c-ill"><div class="c-ring"></div><div class="relief" style="width:100%">${ILL(g.il)}</div></div>
+  <div class="c-num"><b>${pad(g.i + 1)}</b>/ ${pad(n)} ${U.steps.map((_, k) => `<i data-a="step" data-v="${k}" class="${k <= g.i ? 'on' : ''}"></i>`).join('')}</div>
+  <h2 class="c-t"><b>${esc(S.t)}.</b> ${esc(S.x)}${no}</h2>
+  <div class="c-bar">
+    <button class="c-play" data-a="play" aria-label="Écouter la consigne"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30"/></svg>${g.speaking ? '❚❚' : '▶'}</button>
+    <div class="c-lbl">${g.speaking ? 'Lecture…' : 'Écouter'}
+      <small class="auto" data-a="auto">Lecture auto ${g.auto ? 'activée' : ''}</small>
+      ${S.metro ? `<small class="metro" data-a="metro">${g.metroOn ? 'Arrêter le rythme' : 'Rythme 110 / min'}</small>` : ''}</div>
+    <nav class="c-nav"><button data-a="prev" aria-label="Étape précédente" ${g.i ? '' : 'disabled'}>←</button><button data-a="next" aria-label="Étape suivante" ${g.i < n - 1 ? '' : 'disabled'}>→</button></nav>
+  </div>
+  <button class="c-call" data-a="call" data-v="15"><span>Appeler le 15</span></button>`;
+}
+mountBoard(render, u => `<div class="cell"><div class="relief">${ILL(u.id)}</div></div><div class="lbl">${esc(u.nom)}</div><div class="sig">${esc(u.signe)}</div>`);
+</script>
+</body>
+</html>

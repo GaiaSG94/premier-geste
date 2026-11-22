@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Premier Geste — A Bandeau</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/base.css">
+<style>
+:root {
+  --red: #E3262B; --ink: #161616; --paper: #EEECE9; --light: #F8F7F5;
+  --b-bg: var(--paper); --b-ink: var(--ink); --b-font: 'Barlow', system-ui, sans-serif;
+  --s-bg: var(--paper); --s-ink: var(--ink);
+  --il-ink: var(--ink); --il-v: #FFFFFF; --il-r: #CFCBC5; --il-skin: #FFFFFF;
+  --il-accent: var(--red); --il-floor: #B9B4AD; --il-pad: #FFFFFF; --il-obj: #DAD6D0;
+  --il-water: #9CC9E8; --il-lw: 3; --il-font: 'Barlow Condensed', sans-serif;
+}
+.cond { font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase; }
+h1.board-title { font: 700 88px/.9 'Barlow Condensed', sans-serif; text-transform: uppercase; margin: 0; }
+h1.board-title span { background: var(--red); color: #fff; padding: 0 14px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+/* ----- écran ----- */
+.screen { display: flex; flex-direction: column; padding: 58px 20px 0;
+  background: linear-gradient(115deg, var(--light) 0 38%, var(--paper) 38%); }
+.a-top { display: flex; justify-content: space-between; align-items: baseline; font: 600 18px/1 'Barlow Condensed', sans-serif; text-transform: uppercase; letter-spacing: .04em; }
+.a-count { font-size: 18px; opacity: .55; } .a-count b { font-size: 34px; opacity: 1; color: var(--ink); }
+.screen .a-count b { opacity: 1; }
+.a-prog { display: flex; gap: 6px; margin: 12px 0 14px; }
+.a-prog i { flex: 1; height: 6px; background: #D2CEC8; }
+.a-prog i.on { background: var(--ink); }
+.a-urg { align-self: flex-start; background: var(--ink); color: #fff; font: 600 15px/1 'Barlow Condensed', sans-serif; text-transform: uppercase; letter-spacing: .08em; padding: 6px 10px; }
+.a-ill { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 6px 4px; }
+.a-ill .il { max-height: 232px; width: auto; max-width: 100%; }
+.beat .a-ill .il { transform: scale(1.025); }
+.a-t { margin: 0 0 10px; font: 700 42px/1.08 'Barlow Condensed', sans-serif; text-transform: uppercase; }
+.a-t span { background: var(--red); color: #fff; padding: 0 10px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.a-x { margin: 0 0 12px; font: 500 19px/1.35 'Barlow', sans-serif; }
+.a-no { margin: -4px 0 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+.a-no s { font: 600 18px/1 'Barlow Condensed', sans-serif; text-transform: uppercase; background: #fff; padding: 6px 10px; text-decoration-thickness: 3px; text-decoration-color: var(--red); }
+.a-metro { all: unset; cursor: pointer; align-self: flex-start; margin-bottom: 12px; font: 700 20px/1 'Barlow Condensed', sans-serif; text-transform: uppercase; background: #fff; border: 3px solid var(--ink); padding: 8px 12px; }
+.is-metro .a-metro { background: var(--ink); color: #fff; }
+.beat .a-metro { background: var(--red); border-color: var(--red); }
+.a-ctl { display: grid; grid-template-columns: 64px 1fr 64px; gap: 8px; margin-bottom: 8px; }
+.a-ctl button { all: unset; cursor: pointer; height: 60px; display: flex; align-items: center; justify-content: center; background: #fff; border: 3px solid var(--ink); font: 700 30px/1 'Barlow Condensed', sans-serif; }
+.a-ctl button:disabled { opacity: .25; cursor: default; }
+.a-ctl .a-play { background: var(--ink); color: #fff; font-size: 24px; text-transform: uppercase; gap: 10px; }
+.is-speaking .a-ctl .a-play { background: var(--red); border-color: var(--red); }
+.eq { display: inline-flex; gap: 3px; align-items: flex-end; height: 20px; }
+.eq i { width: 4px; background: currentColor; animation: eq .7s ease-in-out infinite alternate; }
+.eq i:nth-child(2) { animation-delay: .2s; } .eq i:nth-child(3) { animation-delay: .4s; }
+@keyframes eq { from { height: 4px; } to { height: 20px; } }
+.a-auto { all: unset; cursor: pointer; align-self: center; font: 600 15px/1 'Barlow Condensed', sans-serif; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 12px; opacity: .7; }
+.is-auto .a-auto { opacity: 1; color: var(--red); }
+.a-call { all: unset; cursor: pointer; margin: 0 -20px; height: 76px; display: flex; align-items: center; justify-content: center; gap: 12px; background: var(--red); color: #fff; font: 700 30px/1 'Barlow Condensed', sans-serif; text-transform: uppercase; letter-spacing: .03em; padding-bottom: 10px; }
+.a-call::before { content: ''; width: 14px; height: 14px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 5px rgba(255,255,255,.3); }
+
+/* ----- bande d'illustrations ----- */
+.strip .cell { background: linear-gradient(115deg, var(--light) 0 45%, #E4E1DC 45%); padding: 14px 10px 10px; }
+.strip .lbl { font: 700 19px/1.05 'Barlow Condensed', sans-serif; text-transform: uppercase; }
+.strip .lbl span { background: var(--red); color: #fff; padding: 0 6px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.strip .sig { font-size: 13px; opacity: .7; }
+.strip button:hover .cell { outline: 3px solid var(--ink); }
+.notes h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; }
+</style>
+</head>
+<body>
+<main class="board">
+  <header class="board-head">
+    <div>
+      <p class="board-kicker">Premier Geste · Planche A · V1 · 2026-11-22 · page principale « Guide pas à pas »</p>
+      <h1 class="board-title"><span>Bandeau</span><br>chaque consigne est un panneau</h1>
+    </div>
+    <div class="board-meta">
+      <p><b>Intention.</b> Lisible à 2 m, dans la panique. Les consignes s'empilent sur des bandes rouges en capitales condensées, comme une signalétique ; l'illustration au trait noir rend le geste sans ambiguïté.</p>
+      <p><b>Référence.</b> Concept Studio (<i>saas-marketing</i>) : bandes surlignées, condensée capitale, dessin au trait mono-couleur, lumière en biais. Principes seulement.</p>
+      <p><b>Tokens.</b> Barlow Condensed 700 / Barlow 500 · un seul accent rouge secours #E3262B.</p>
+      <div class="swatches"><i style="background:#E3262B"></i><i style="background:#161616"></i><i style="background:#EEECE9"></i><i style="background:#F8F7F5"></i><i style="background:#9CC9E8"></i></div>
+    </div>
+  </header>
+
+  <section class="phones">
+    <div class="phone-wrap"><div class="phone"><div class="screen" data-guide="rcp:2"></div></div><p class="phone-cap">Arrêt cardiaque · étape 3 — touchez « Rythme » : bip 110/min + pulsation</p></div>
+    <div class="phone-wrap"><div class="phone"><div class="screen" data-guide="etouf:2"></div></div><p class="phone-cap">Étouffement · étape 3 — « Écouter » lit la consigne à voix haute</p></div>
+    <div class="phone-wrap"><div class="phone"><div class="screen" data-guide="brul:3"></div></div><p class="phone-cap">Brûlure · étape 4 — les gestes interdits, barrés</p></div>
+  </section>
+
+  <h2 class="strip-title cond">Jeu d'illustrations — 8 urgences <small style="font-size:15px;opacity:.6">(cliquez : s'ouvre dans le 1er téléphone)</small></h2>
+  <div class="strip"></div>
+
+  <section class="notes">
+    <div><h3>Force</h3><p>Le texte EST l'image : titre lisible même sans lunettes, bouton d'appel impossible à rater (bande pleine largeur, en bas, sous le pouce).</p></div>
+    <div><h3>Risque</h3><p>Beaucoup de rouge : peut stresser. À tester avec le rouge réservé au titre + appel seulement (delta possible).</p></div>
+    <div><h3>Audio</h3><p>« Écouter » lit titre + consigne (voix FR du système). « Lecture auto » lit chaque étape dès qu'on avance : mains libres pendant le massage.</p></div>
+  </section>
+</main>
+<script src="shared/data.js"></script>
+<script src="shared/illus.js"></script>
+<script src="shared/guide.js"></script>
+<script>
+const pad = n => String(n).padStart(2, '0');
+function render(g) {
+  const U = g.U, S = g.S, n = g.n;
+  return `<div class="notch"></div>
+  <header class="a-top"><span data-a="urg" data-v="${g.u}">‹ Urgences</span><span class="a-count"><b>${pad(g.i + 1)}</b> / ${pad(n)}</span></header>
+  <div class="a-prog">${U.steps.map((_, k) => `<i data-a="step" data-v="${k}" class="${k <= g.i ? 'on' : ''}"></i>`).join('')}</div>
+  <div class="a-urg">${esc(U.nom)}</div>
+  <div class="a-ill">${ILL(g.il)}</div>
+  <h2 class="a-t"><span>${esc(S.t)}</span></h2>
+  <p class="a-x">${esc(S.x)}</p>
+  ${S.no ? `<p class="a-no">${S.no.map(w => `<s>${esc(w)}</s>`).join('')}</p>` : ''}
+  ${S.metro ? `<button class="a-metro" data-a="metro">${g.metroOn ? '■ Stop rythme' : '▶ Rythme 110 / min'}</button>` : ''}
+  <nav class="a-ctl"><button data-a="prev" aria-label="Étape précédente" ${g.i ? '' : 'disabled'}>‹</button>
+    <button class="a-play" data-a="play">${g.speaking ? '<span class="eq"><i></i><i></i><i></i></span> Pause' : '▶ Écouter'}</button>
+    <button data-a="next" aria-label="Étape suivante" ${g.i < n - 1 ? '' : 'disabled'}>›</button></nav>
+  <button class="a-auto" data-a="auto">${g.auto ? '● Lecture auto activée' : '○ Lecture auto'}</button>
+  <button class="a-call" data-a="call" data-v="15">Appeler le 15</button>`;
+}
+mountBoard(render, u => `<div class="cell">${ILL(u.id)}</div><div class="lbl"><span>${esc(u.nom)}</span></div><div class="sig">${esc(u.signe)}</div>`);
+</script>
+</body>
+</html>

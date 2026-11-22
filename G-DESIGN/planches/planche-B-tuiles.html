@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Premier Geste — B Tuiles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/base.css">
+<style>
+:root {
+  --acc: #F0442B; --ink: #14161A; --mute: #5E6673; --bg: #F6F7F9;
+  --b-bg: var(--bg); --b-ink: var(--ink); --b-font: 'Manrope', system-ui, sans-serif;
+  --s-bg: var(--bg); --s-ink: var(--ink);
+  --il-o: transparent; --il-lw: 0; --il-ink: #2B3340; --il-v: #C3CEDC; --il-r: #2B3340; --il-skin: #E6B48E;
+  --il-accent: var(--acc); --il-floor: #DCE1E8; --il-pad: #F2F4F7; --il-obj: #CBD3DE; --il-water: #7CC4F0;
+  --il-badge: var(--ink); --il-font: 'Manrope', sans-serif;
+  --tile: linear-gradient(155deg, #FFFFFF 0%, #EEF1F6 100%);
+  --lift: 0 26px 40px -20px rgba(22, 32, 52, .38), 0 2px 6px rgba(22, 32, 52, .06);
+}
+h1.board-title { font: 800 72px/1 'Manrope', sans-serif; letter-spacing: -.035em; margin: 0; }
+h1.board-title s { color: #A9B0BA; text-decoration-thickness: 4px; }
+
+/* ----- écran ----- */
+.screen { display: flex; flex-direction: column; padding: 58px 22px 22px; }
+.b-top { display: flex; align-items: center; justify-content: space-between; }
+.b-round { all: unset; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; background: #fff; box-shadow: var(--lift); display: grid; place-items: center; font: 700 20px/1 'Manrope'; }
+.b-logo { font: 800 15px/1 'Manrope'; letter-spacing: -.01em; display: flex; align-items: center; gap: 7px; }
+.b-logo i { width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle at 70% 50%, var(--bg) 0 38%, transparent 40%), var(--ink); }
+.b-step { font: 700 13px/1 'Manrope'; background: #fff; box-shadow: var(--lift); padding: 9px 12px; border-radius: 20px; }
+.b-stage { position: relative; height: 300px; margin: 10px 0 6px; }
+.b-tile { position: absolute; left: 50%; top: 34px; width: 268px; height: 222px; margin-left: -134px; border-radius: 38px; background: var(--tile); box-shadow: var(--lift); transform: rotate(-2deg); display: grid; place-items: center; padding: 18px; transition: transform .12s; }
+.beat .b-tile { transform: rotate(-2deg) scale(1.035); }
+.b-mini { all: unset; cursor: pointer; position: absolute; width: 74px; height: 74px; border-radius: 22px; background: var(--tile); box-shadow: var(--lift); display: grid; place-items: center; padding: 8px; box-sizing: border-box; }
+.b-mini.prev { left: -2px; top: 6px; transform: rotate(-11deg); }
+.b-mini.next { right: -4px; bottom: 0; transform: rotate(9deg); }
+.b-mini small { position: absolute; top: -8px; right: -6px; font: 800 11px/1 'Manrope'; background: var(--ink); color: #fff; border-radius: 10px; padding: 4px 6px; }
+.b-chip { align-self: center; font: 700 13px/1 'Manrope'; color: var(--mute); display: flex; gap: 7px; align-items: center; margin-bottom: 10px; }
+.b-chip::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--acc); }
+.b-t { margin: 0 0 8px; text-align: center; font: 800 31px/1.08 'Manrope'; letter-spacing: -.03em; }
+.b-x { margin: 0 auto 10px; text-align: center; font: 500 16.5px/1.5 'Manrope'; color: var(--mute); max-width: 320px; }
+.b-x s { color: #A9B0BA; text-decoration-thickness: 2px; font-weight: 700; margin: 0 3px; }
+.b-x b { color: var(--ink); }
+.b-row { display: flex; gap: 8px; margin-top: auto; margin-bottom: 12px; }
+.b-audio { all: unset; cursor: pointer; flex: 1; height: 56px; border-radius: 30px; background: #fff; box-shadow: var(--lift); display: flex; align-items: center; gap: 10px; padding: 0 8px; font: 700 14px/1 'Manrope'; }
+.b-audio .pb { width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-size: 13px; flex: none; }
+.is-speaking .b-audio .pb { background: var(--acc); }
+.wave { display: flex; gap: 3px; align-items: center; height: 22px; margin-left: auto; margin-right: 8px; }
+.wave i { width: 3px; height: 6px; border-radius: 2px; background: #C9CFD8; }
+.is-speaking .wave i { background: var(--acc); animation: wv .8s ease-in-out infinite alternate; }
+.wave i:nth-child(3n) { animation-delay: .15s; } .wave i:nth-child(3n+1) { animation-delay: .35s; }
+@keyframes wv { from { height: 4px; } to { height: 22px; } }
+.b-pill { all: unset; cursor: pointer; white-space: nowrap; height: 56px; padding: 0 16px; border-radius: 30px; background: #fff; box-shadow: var(--lift); font: 800 13px/1.1 'Manrope'; display: grid; place-items: center; text-align: center; }
+.is-auto .b-pill.auto, .is-metro .b-pill.metro { background: var(--ink); color: #fff; }
+.beat .b-pill.metro { background: var(--acc); }
+.b-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 12px; }
+.b-dots i { width: 7px; height: 7px; border-radius: 4px; background: #D3D8E0; }
+.b-dots i.on { width: 22px; background: var(--ink); }
+.b-call { all: unset; cursor: pointer; height: 60px; border-radius: 32px; background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; gap: 10px; font: 800 18px/1 'Manrope'; box-shadow: 0 16px 28px -14px rgba(0,0,0,.6); }
+.b-call span { color: #8C939E; font-weight: 600; font-size: 15px; }
+.b-call::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 0 4px rgba(240,68,43,.25); }
+.b-fine { text-align: center; font: 600 12px/1 'Manrope'; color: #9AA1AC; margin-top: 10px; }
+
+/* ----- bande d'illustrations ----- */
+.strip .cell { background: var(--tile); border-radius: 26px; box-shadow: var(--lift); padding: 14px 8px; aspect-ratio: 1; display: grid; place-items: center; transition: transform .15s; }
+.strip button:nth-child(odd) .cell { transform: rotate(-3deg); }
+.strip button:nth-child(even) .cell { transform: rotate(2.5deg); }
+.strip button:hover .cell { transform: rotate(0) translateY(-4px); }
+.strip .lbl { font: 800 15px/1.2 'Manrope'; letter-spacing: -.01em; text-align: center; margin-top: 6px; }
+.strip .sig { font: 500 12px/1.35 'Manrope'; color: var(--mute); text-align: center; }
+.strip-title { font: 800 28px/1 'Manrope'; letter-spacing: -.02em; }
+</style>
+</head>
+<body>
+<main class="board">
+  <header class="board-head">
+    <div>
+      <p class="board-kicker">Premier Geste · Planche B · V1 · 2026-11-22 · page principale « Guide pas à pas »</p>
+      <h1 class="board-title">Le bon geste, tout de suite. <s>Pas après.</s></h1>
+    </div>
+    <div class="board-meta">
+      <p><b>Intention.</b> Rassurer. Le geste est posé sur une grande tuile douce, l'étape d'avant et celle d'après flottent autour : on voit où on en est sans lire. Ton calme, une pilule noire pour appeler.</p>
+      <p><b>Référence.</b> LogoPoint (<i>minimal-nb</i>) : tuiles arrondies inclinées qui flottent, titre noir centré, mot barré en gris, CTA pilule noire avec mention grise. Principes seulement.</p>
+      <p><b>Tokens.</b> Manrope 800 / 500 · fond #F6F7F9 · un accent rouge-orangé #F0442B (pastilles, plaie, flèches).</p>
+      <div class="swatches"><i style="background:#14161A"></i><i style="background:#F0442B"></i><i style="background:#F6F7F9"></i><i style="background:#C3CEDC"></i><i style="background:#E6B48E"></i></div>
+    </div>
+  </header>
+
+  <section class="phones">
+    <div class="phone-wrap"><div class="phone"><div class="screen" data-guide="rcp:2"></div></div><p class="phone-cap">Arrêt cardiaque · étape 3 — « 110 / min » lance le bip ; la tuile bat au rythme</p></div>
+    <div class="phone-wrap"><div class="phone"><div class="screen" data-guide="etouf:2"></div></div><p class="phone-cap">Étouffement · étape 3 — les mini-tuiles = étapes voisines (cliquables)</p></div>
+    <div class="phone-wrap"><div class="phone"><div class="screen" data-guide="brul:3"></div></div><p class="phone-cap">Brûlure · étape 4 — « Jamais » barré en gris</p></div>
+  </section>
+
+  <h2 class="strip-title">Jeu d'illustrations — 8 urgences <small style="font-size:14px;color:#5E6673;font-weight:600">cliquez : s'ouvre dans le 1er téléphone</small></h2>
+  <div class="strip"></div>
+
+  <section class="notes">
+    <div><h3>Force</h3><p>La plus apaisante des trois. Les mini-tuiles avant/après donnent la progression sans texte ; la pilule noire reste l'action la plus contrastée de l'écran.</p></div>
+    <div><h3>Risque</h3><p>Moins « urgence » que A : l'appel du 15 doit rester évident. Tuiles inclinées = coût d'intégration faible (CSS pur).</p></div>
+    <div><h3>Audio</h3><p>Lecteur en pilule avec onde animée pendant la lecture ; « Auto » enchaîne la lecture à chaque étape ; « 110 / min » = métronome du massage.</p></div>
+  </section>
+</main>
+<script src="shared/data.js"></script>
+<script src="shared/illus.js"></script>
+<script src="shared/guide.js"></script>
+<script>
+function mini(g, k, cls, act) {
+  if (k < 0 || k >= g.n) return '';
+  const s = g.U.steps[k];
+  return `<button class="b-mini ${cls}" data-a="${act}" aria-label="${act === 'prev' ? 'Étape précédente' : 'Étape suivante'}">${ILL(s.il || g.u)}<small>${k + 1}</small></button>`;
+}
+function render(g) {
+  const U = g.U, S = g.S, n = g.n;
+  const no = S.no ? `<br><b>Jamais :</b>${S.no.map(w => `<s>${esc(w)}</s>`).join('')}` : '';
+  return `<div class="notch"></div>
+  <header class="b-top"><button class="b-round" data-a="urg" data-v="${g.u}" aria-label="Urgences">‹</button>
+    <span class="b-logo"><i></i>Premier Geste</span><span class="b-step">${g.i + 1} / ${n}</span></header>
+  <div class="b-stage">${mini(g, g.i - 1, 'prev', 'prev')}<div class="b-tile">${ILL(g.il)}</div>${mini(g, g.i + 1, 'next', 'next')}</div>
+  <div class="b-chip">${esc(U.nom)}</div>
+  <h2 class="b-t">${esc(S.t)}</h2>
+  <p class="b-x">${esc(S.x)}${no}</p>
+  <div class="b-row">
+    <button class="b-audio" data-a="play"><span class="pb">${g.speaking ? '❚❚' : '▶'}</span>${g.speaking ? 'Lecture…' : 'Écouter'}<span class="wave">${'<i></i>'.repeat(9)}</span></button>
+    ${S.metro ? `<button class="b-pill metro" data-a="metro">♥ 110/min</button>` : ''}
+    <button class="b-pill auto" data-a="auto">Auto</button>
+  </div>
+  <div class="b-dots">${U.steps.map((_, k) => `<i data-a="step" data-v="${k}" class="${k === g.i ? 'on' : ''}"></i>`).join('')}</div>
+  <button class="b-call" data-a="call" data-v="15">Appeler le 15 <span>SAMU</span></button>
+  <p class="b-fine">112 urgence européenne · 114 par SMS</p>`;
+}
+mountBoard(render, u => `<div class="cell">${ILL(u.id)}</div><div class="lbl">${esc(u.nom)}</div><div class="sig">${esc(u.signe)}</div>`);
+</script>
+</body>
+</html>

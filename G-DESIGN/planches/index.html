@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Premier Geste — planches V1</title>
+<style>
+:root { --bg: #F3F2F0; --ink: #141414; --mute: #6B6B6B; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, 'Segoe UI', sans-serif; }
+main { max-width: 1440px; margin: 0 auto; padding: 48px 56px 72px; }
+.k { font: 600 12px/1 ui-monospace, Consolas, monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
+h1 { font-size: 52px; line-height: 1; letter-spacing: -.03em; margin: 12px 0 10px; }
+p.lead { max-width: 760px; color: #3a3a3a; margin: 0 0 36px; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+a.card { color: inherit; text-decoration: none; display: block; }
+.frame { height: 430px; overflow: hidden; border-radius: 14px; background: #fff; box-shadow: 0 20px 40px -24px rgba(0,0,0,.35); position: relative; }
+.frame iframe { width: 1440px; height: 1430px; border: 0; transform: scale(.3); transform-origin: 0 0; pointer-events: none; }
+a.card:hover .frame { outline: 3px solid var(--ink); }
+.card h2 { font-size: 20px; margin: 16px 0 4px; }
+.card p { margin: 0; color: var(--mute); }
+.cmd { margin-top: 44px; font: 13px/1.7 ui-monospace, Consolas, monospace; color: var(--mute); }
+.cmd b { color: var(--ink); }
+</style>
+</head>
+<body>
+<main>
+  <p class="k">Premier Geste · étape 6 design · V1 · 2026-11-22</p>
+  <h1>3 directions pour la page principale</h1>
+  <p class="lead">Guide pas à pas d'une urgence : <b>image</b> du geste, <b>texte</b> court, <b>audio</b> (consigne enregistrée, repli voix du navigateur), métronome 110/min pour le massage cardiaque. Même contenu, même jeu d'illustrations (8 urgences), trois styles franchement différents. Tout est cliquable dans les planches.</p>
+  <div class="grid">
+    <a class="card" href="planche-A-bandeau.html"><div class="frame"><iframe src="planche-A-bandeau.html" title="Planche A" tabindex="-1" loading="lazy"></iframe></div>
+      <h2>A — Bandeau</h2><p>Signalétique : consignes sur bandes rouges, capitales condensées, dessin au trait. La plus « urgence ».</p></a>
+    <a class="card" href="planche-B-tuiles.html"><div class="frame"><iframe src="planche-B-tuiles.html" title="Planche B" tabindex="-1" loading="lazy"></iframe></div>
+      <h2>B — Tuiles</h2><p>Tuiles douces flottantes, étapes voisines autour, pilule noire « Appeler le 15 ». La plus rassurante.</p></a>
+    <a class="card" href="planche-C-relief.html"><div class="frame"><iframe src="planche-C-relief.html" title="Planche C" tabindex="-1" loading="lazy"></iframe></div>
+      <h2>C — Relief</h2><p>Monochrome, gestes en relief, phrase noir puis gris, appel en onglet noir. La plus calme et distinctive.</p></a>
+  </div>
+  <p class="cmd">Commandes : <b>/planches N</b> · <b>/variantes</b> · <b>/pages</b> · <b>/delta</b> · <b>/cible &lt;écran&gt;</b> · <b>/compare A B</b> · <b>/lock</b></p>
+</main>
+</body>
+</html>
