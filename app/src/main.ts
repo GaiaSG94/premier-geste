@@ -7,7 +7,7 @@ import { createFichesView } from './pages/fiches'
 import type { View } from './view'
 
 const found = document.getElementById('app')
-if (!found) throw new Error('Élément #app introuvable')
+if (!found) throw new Error('Element #app not found')
 const root: HTMLElement = found
 
 let view: View | null = null

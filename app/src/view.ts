@@ -11,7 +11,7 @@ export function esc(value: string | number): string {
   }[c] as string))
 }
 
-export const callBar = '<a class="a-call" href="tel:15">Appeler le 15</a>'
+export const callBar = '<a class="a-call" href="tel:15">Call 15</a>'
 
 export const notch = '<div class="notch" aria-hidden="true"></div>'
 

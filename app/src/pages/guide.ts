@@ -51,10 +51,10 @@ export class GuideView implements View {
     const U = this.urgency
     const S = this.step
     this.el.innerHTML = notch +
-      `<header class="a-top"><a href="#/" aria-label="Retour aux urgences">‹ Urgences</a>` +
+      `<header class="a-top"><a href="#/" aria-label="Back to emergencies">‹ Emergencies</a>` +
       `<span class="a-count"><b>${pad2(this.i + 1)}</b> / ${pad2(this.total)}</span></header>` +
-      `<div class="a-prog" aria-label="Progression">${U.steps.map((_, k) =>
-        `<i data-a="step" data-v="${k}" class="${k <= this.i ? 'on' : ''}" role="button" tabindex="0" aria-label="Étape ${k + 1}"></i>`
+      `<div class="a-prog" aria-label="Progress">${U.steps.map((_, k) =>
+        `<i data-a="step" data-v="${k}" class="${k <= this.i ? 'on' : ''}" role="button" tabindex="0" aria-label="Step ${k + 1}"></i>`
       ).join('')}</div>` +
       `<div class="a-urg">${esc(U.nom)}</div>` +
       `<div class="a-ill">${ill(S.il || U.id)}</div>` +
@@ -62,16 +62,16 @@ export class GuideView implements View {
         `<h2 class="a-t"><span>${esc(S.t)}</span></h2>` +
         `<p class="a-x">${esc(S.x)}</p>` +
         (S.no ? `<p class="a-no">${S.no.map(w => `<s>${esc(w)}</s>`).join('')}</p>` : '') +
-        (S.metro ? `<button class="a-metro" data-a="metro">${this.metro.running ? '■ Stop rythme' : '▶ Rythme 110 / min'}</button>` : '') +
+        (S.metro ? `<button class="a-metro" data-a="metro">${this.metro.running ? '■ Stop rhythm' : '▶ Rhythm 110 / min'}</button>` : '') +
       `</div>` +
-      `<nav class="a-ctl" aria-label="Contrôles">` +
-        `<button class="a-prev" data-a="prev" aria-label="Étape précédente" ${this.i ? '' : 'disabled'}>‹</button>` +
-        `<button class="a-play" data-a="play" aria-label="${voice.speaking ? 'Arrêter la lecture' : 'Écouter la consigne'}">` +
-          (voice.speaking ? '<span class="eq" aria-hidden="true"><i></i><i></i><i></i></span> Pause' : '▶ Écouter') +
+      `<nav class="a-ctl" aria-label="Controls">` +
+        `<button class="a-prev" data-a="prev" aria-label="Previous step" ${this.i ? '' : 'disabled'}>‹</button>` +
+        `<button class="a-play" data-a="play" aria-label="${voice.speaking ? 'Stop playback' : 'Listen to instructions'}">` +
+          (voice.speaking ? '<span class="eq" aria-hidden="true"><i></i><i></i><i></i></span> Pause' : '▶ Listen') +
         `</button>` +
-        `<button class="a-next" data-a="next" aria-label="Étape suivante" ${this.i < this.total - 1 ? '' : 'disabled'}>›</button>` +
+        `<button class="a-next" data-a="next" aria-label="Next step" ${this.i < this.total - 1 ? '' : 'disabled'}>›</button>` +
       `</nav>` +
-      `<button class="a-auto" data-a="auto">${this.auto ? '● Lecture auto activée' : '○ Lecture auto'}</button>` +
+      `<button class="a-auto" data-a="auto">${this.auto ? '● Auto read on' : '○ Auto read'}</button>` +
       callBar
     this.el.classList.toggle('is-speaking', voice.speaking)
     this.el.classList.toggle('is-auto', this.auto)

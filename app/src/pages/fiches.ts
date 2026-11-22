@@ -4,15 +4,15 @@ import { ill } from '../illus'
 import { audioKey, pad2, speechOf } from '../state'
 import { callBar, esc, notch, type View } from '../view'
 
-const DEMO = 'Version de démonstration — contenu en cours de validation'
-const FOOT = 'Ne remplace pas une formation aux premiers secours (PSC1). En cas de doute, appelez le 15.'
+const DEMO = 'Demonstration version — content under review'
+const FOOT = 'Does not replace first-aid training (PSC1). If in doubt, call 15.'
 
 export function createFichesView(el: HTMLElement, id: string | null): View {
   if (id && URG_BY_ID[id]) return detail(el, URG_BY_ID[id].id)
   el.className = 'screen fiches'
   el.innerHTML = notch +
-    '<header class="f-top"><a href="#/">‹ Urgences</a></header>' +
-    '<h1 class="f-title"><span>Fiches</span></h1>' +
+    '<header class="f-top"><a href="#/">‹ Emergencies</a></header>' +
+    '<h1 class="f-title"><span>Fact sheets</span></h1>' +
     `<p class="f-demo">${esc(DEMO)}</p>` +
     '<div class="f-list">' + URG.map(u =>
       `<a class="f-row" href="#/fiches/${esc(u.id)}">` +
@@ -30,7 +30,7 @@ function detail(el: HTMLElement, id: string): View {
   const U = URG_BY_ID[id]
   el.className = 'screen fiche'
   el.innerHTML = notch +
-    '<header class="f-top"><a href="#/fiches">‹ Fiches</a></header>' +
+    '<header class="f-top"><a href="#/fiches">‹ Fact sheets</a></header>' +
     `<h1 class="f-title"><span>${esc(U.nom)}</span></h1>` +
     `<p class="f-demo">${esc(DEMO)}</p>` +
     '<div class="f-steps">' + U.steps.map((S, k) =>
@@ -40,7 +40,7 @@ function detail(el: HTMLElement, id: string): View {
         `<h2 class="f-step-t"><span>${esc(S.t)}</span></h2>` +
         `<p class="f-step-x">${esc(S.x)}</p>` +
         (S.no ? `<p class="f-step-no">${S.no.map(w => `<s>${esc(w)}</s>`).join('')}</p>` : '') +
-        `<button class="f-step-audio" data-a="say" data-key="${esc(audioKey(id, k))}">▶ Écouter</button>` +
+        `<button class="f-step-audio" data-a="say" data-key="${esc(audioKey(id, k))}">▶ Listen</button>` +
       `</article>`
     ).join('') + '</div>' +
     `<p class="f-foot">${esc(FOOT)}</p>` +

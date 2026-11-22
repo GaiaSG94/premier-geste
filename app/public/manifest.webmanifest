@@ -1,8 +1,8 @@
 {
-  "name": "Premier Geste",
-  "short_name": "Premier Geste",
-  "description": "Le bon geste, pas à pas, en attendant les secours.",
-  "lang": "fr",
+  "name": "First Aid",
+  "short_name": "First Aid",
+  "description": "The right action, step by step, while waiting for emergency services.",
+  "lang": "en",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
