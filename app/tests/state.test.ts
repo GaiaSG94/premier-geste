@@ -3,8 +3,8 @@ import { URG } from '../src/data'
 import { parseRoute, routeHash, samePage } from '../src/router'
 import { audioKey, clampStep, pad2, speechOf } from '../src/state'
 
-describe('état du guide', () => {
-  it('borne un index dans les étapes disponibles', () => {
+describe('guide state', () => {
+  it('clamps an index to the available steps', () => {
     expect(clampStep(-3, 5)).toBe(0)
     expect(clampStep(2, 5)).toBe(2)
     expect(clampStep(99, 5)).toBe(4)
@@ -12,23 +12,23 @@ describe('état du guide', () => {
     expect(clampStep(Number.NaN, 5)).toBe(0)
   })
 
-  it('construit la clé audio et le compteur', () => {
+  it('builds the audio key and counter', () => {
     expect(audioKey('rcp', 0)).toBe('rcp-1')
     expect(audioKey('brul', 3)).toBe('brul-4')
     expect(pad2(3)).toBe('03')
     expect(pad2(12)).toBe('12')
   })
 
-  it('lit exactement le texte affiché, avec les gestes interdits', () => {
+  it('speaks exactly the displayed text, including actions to avoid', () => {
     const step = URG[0].steps[0]
-    expect(speechOf(step)).toBe('Appelez le 15. Mettez le haut-parleur. Faites chercher un défibrillateur.')
-    const bruled = URG.find(u => u.id === 'brul')?.steps[3]
-    expect(bruled && speechOf(bruled)).toContain('Ne pas : glace, beurre, dentifrice.')
+    expect(speechOf(step)).toBe('Call 15. Put the phone on speaker. Have someone fetch a defibrillator.')
+    const burn = URG.find(u => u.id === 'brul')?.steps[3]
+    expect(burn && speechOf(burn)).toContain('Do not: ice, butter, toothpaste.')
   })
 })
 
-describe('URL ↔ étape', () => {
-  it('parse les routes connues', () => {
+describe('URL ↔ step', () => {
+  it('parses known routes', () => {
     expect(parseRoute('')).toEqual({ page: 'home' })
     expect(parseRoute('#/')).toEqual({ page: 'home' })
     expect(parseRoute('#/appel')).toEqual({ page: 'appel' })
@@ -37,13 +37,13 @@ describe('URL ↔ étape', () => {
     expect(parseRoute('#/guide/rcp/3')).toEqual({ page: 'guide', u: 'rcp', i: 2 })
   })
 
-  it('borne et répare une URL d’étape', () => {
+  it('clamps and repairs a step URL', () => {
     expect(parseRoute('#/guide/rcp/0')).toEqual({ page: 'guide', u: 'rcp', i: 0 })
     expect(parseRoute('#/guide/rcp/999')).toEqual({ page: 'guide', u: 'rcp', i: 4 })
     expect(parseRoute('#/guide/inconnu/1')).toEqual({ page: 'home' })
   })
 
-  it('fait l’aller-retour hash → route → hash', () => {
+  it('round-trips hash → route → hash', () => {
     const routes = [
       { page: 'home' },
       { page: 'appel' },
@@ -58,7 +58,7 @@ describe('URL ↔ étape', () => {
     }
   })
 
-  it('détecte le changement de page utile', () => {
+  it('detects meaningful page changes', () => {
     expect(samePage({ page: 'guide', u: 'rcp', i: 0 }, { page: 'guide', u: 'rcp', i: 3 })).toBe(true)
     expect(samePage({ page: 'guide', u: 'rcp', i: 0 }, { page: 'guide', u: 'brul', i: 0 })).toBe(false)
     expect(samePage({ page: 'home' }, { page: 'appel' })).toBe(false)

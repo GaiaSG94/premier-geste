@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Guide pas à pas des gestes qui sauvent — PWA hors ligne",
+  "description": "Step-by-step first-aid guide — offline-first PWA",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",

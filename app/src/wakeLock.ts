@@ -1,4 +1,4 @@
-/* Premier Geste — maintien de l'écran allumé pendant le guide. */
+/* First Aid — keep the screen awake during the guide. */
 
 interface SentinelLike {
   released?: boolean

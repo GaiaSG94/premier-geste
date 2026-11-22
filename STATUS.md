@@ -1,19 +1,21 @@
 # STATUS premier-geste
 Phase: build
-Etat: done
+Status: done
 Round: R2
-Maj: 2026-11-22
+Updated: 2026-11-22
+Language: English — UI and documentation localized in English
+Submission readiness: ready — public demo live, all checks green, SUBMISSION.md complete; final submission to be made by the project owner
 ## opencode
-(rien — pas de build lancé, pas de hackathon rattaché)
+- 2026-11-22 R2: English translation of the app and of the documentation (README.md, SUBMISSION.md, BUILD-REPORT.md, STATUS.md), submission requirements 1–6 addressed; no build launched, no hackathon attached.
 ## Claude
-- 2026-11-22 R1 : PAGES.md (4 pages), REFS.md (3 refs), 3 planches de la
-  page principale (A Bandeau, B Tuiles, C Relief), 11 illustrations SVG,
-  33 fichiers audio FR. Attente : choix de style par Gaia (Garder / Changer / Essayer).
-- 2026-11-22 R1 clos : style A « Bandeau » retenu → `G-DESIGN/STYLE.md` +
-  prompt de build `PROMPT-APP-BANDEAU.md` (758 lignes, autonome) remis à Gaia
-  pour un agent de build. Prochaine étape : build (étape 4) puis contrôle
-  d'écart planche/produit (étape 7).
-- 2026-11-22 R2 : build terminé dans `app/` (Vite + TS, 4 pages, PWA hors ligne).
-  25 tests unitaires + 8 E2E verts, build vert, Lighthouse 99/100/100 + PWA 100.
-  Captures et comparaison planche/produit dans `app/reports/`.
-  Rapport complet : `RAPPORT-BUILD.md`. Reste : relecture PSC1 (bandeau en place).
+- 2026-11-22 R1: PAGES.md (4 pages), REFS.md (3 refs), 3 mockups of the
+  main page (A Banner, B Tiles, C Relief), 11 SVG illustrations,
+  33 FR audio files. Waiting: style choice by Gaia (Keep / Change / Try).
+- 2026-11-22 R1 closed: style A "Banner" selected → `G-DESIGN/STYLE.md` +
+  build prompt `PROMPT-APP-BANDEAU.md` (758 lines, self-contained) handed to
+  Gaia for a build agent. Next step: build (step 4) then mockup/product gap
+  check (step 7).
+- 2026-11-22 R2: build completed in `app/` (Vite + TS, 4 pages, offline PWA).
+  25 unit tests + 8 E2E green, build green, Lighthouse 99/100/100 + PWA 100.
+  Screenshots and mockup/product comparison in `app/reports/`.
+  Full report: `BUILD-REPORT.md`. Remaining: PSC1 review (banner in place).

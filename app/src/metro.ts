@@ -1,4 +1,4 @@
-/* Premier Geste — métronome 110/min : planification WebAudio + repli visuel. */
+/* First Aid — 110 bpm metronome: WebAudio scheduling + visual fallback. */
 
 export const METRO_INTERVAL_MS = 545
 

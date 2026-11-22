@@ -83,7 +83,7 @@ try {
   await writeFile(path.join(reports, 'captures.txt'),
     ['accueil.png', 'guide-rcp3.png', 'guide-brul4.png', 'appel.png', 'fiches.png', 'fiche-rcp.png',
       'planche-A-phone.png', 'comparaison-guide.png'].join('\n') + '\n')
-  console.log('Captures générées dans ' + reports)
+  console.log('Screenshots generated in ' + reports)
 } finally {
   if (browser) await browser.close()
   server.kill('SIGTERM')

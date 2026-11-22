@@ -1,7 +1,7 @@
-/* Premier Geste — jeu d'illustrations des gestes (SVG, 240×180).
-   Une seule géométrie ; chaque direction la peint via ses variables CSS
-   (--il-ink, --il-v victime, --il-r sauveteur, --il-skin, --il-accent…).
-   L = membre (trait épais + contour), H = tête, P = main, A = flèche. */
+/* First Aid — set of first-aid gesture illustrations (SVG, 240×180).
+   One geometry, painted by CSS variables (--il-ink, --il-v victim,
+   --il-r rescuer, --il-skin, --il-accent…).
+   L = limb (thick stroke + outline), H = head, P = hand, A = arrow. */
 
 const L = (d: string, w: number, c: string): string => `<path class="o" d="${d}" stroke-width="${w + 6}"/><path class="${c}" d="${d}" stroke-width="${w}"/>`;
 const H = (x: number, y: number, r = 13): string => `<circle class="hd" cx="${x}" cy="${y}" r="${r}"/>`;

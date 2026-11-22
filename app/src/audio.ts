@@ -1,4 +1,4 @@
-/* Premier Geste — voix unique : fichier audio puis repli synthèse vocale. */
+/* First Aid — single voice: audio file, then speech-synthesis fallback. */
 
 const EXTS = ['mp3', 'ogg'] as const
 const FEMALE = /hortense|julie|am[eé]lie|audrey|denise|marie|eloise|vivienne|female/i

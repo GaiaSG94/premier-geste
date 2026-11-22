@@ -23,7 +23,7 @@ export function writeAuto(value: boolean): void {
 
 export function speechOf(step: Step): string {
   const base = step.t + '. ' + step.x
-  return step.no && step.no.length ? base + ' Ne pas : ' + step.no.join(', ') + '.' : base
+  return step.no && step.no.length ? base + ' Do not: ' + step.no.join(', ') + '.' : base
 }
 
 export function audioKey(id: string, index: number): string {
